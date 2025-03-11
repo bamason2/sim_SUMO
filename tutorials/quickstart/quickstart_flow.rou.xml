@@ -1,0 +1,31 @@
+<routes>
+    <vType id="pkw" length="5" maxSpeed="50" departSpeed="max" departPos="last" departLane="best" accel="2.6" decel="4.5" sigma="0.2" speedDev="0.2" vClass="passenger"/>
+    <vType id="bus" length="15" maxSpeed="30" departSpeed="max" departPos="last" departLane="best" accel="1.2" decel="2.5" sigma="0.1" speedDev="0.1" vClass="bus"/>
+    <vType id="bike" length="1.8" width="0.5" maxSpeed="7.5" departSpeed="max" departPos="last" departLane="best" accel="0.8" decel="1.5" sigma="0.5" speedDev="0.5" vClass="bicycle"/>
+    <vType id="scooter" length="2" maxSpeed="50" departSpeed="max" departPos="last" departLane="best" accel="2.6" decel="4.5" sigma="0.2" speedDev="0.2" vClass="moped"/>
+
+Instead of setting departPos="last", the option --extrapolate-departpos can also be used.
+    <flow id="pkw1" type="pkw" from="D2" to="D5" begin="0" end="0" number="1000" departPos="last"/>
+    <flow id="bus1" type="bus" from="D2" to="D5" begin="0" end="0" number="1000" departPos="last"/>
+    <flow id="bike1" type="bike" from="D2" to="D5" begin="0" end="0" number="1000" departPos="last"/>
+    <flow id="scooter1" type="scooter" from="D2" to="D5" begin="0" end="0" number="1000" departPos="last"/>
+
+    <flow id="pkw2" type="pkw" from="D2" to="D5" begin="0" end="0" number="1000" departPos="last"/>
+    <flow id="bus2" type="bus" from="D2" to="D5" begin="0" end="0" number="1000" departPos="last"/>
+    <flow id="bike2" type="bike" from="D2" to="D5" begin="0" end="0" number="1000" departPos="last"/>
+    <flow id="scooter2" type="scooter" from="D2" to="D5" begin="0" end="0" number="1000" departPos="last"/>
+
+    <flow id="pkw3" type="pkw" from="D4" to="D7" begin="0" end="0" number="1000" departPos="last"/>
+    <flow id="bus3" type="bus" from="D4" to="D7" begin="0" end="0" number="1000" departPos="last"/>
+    <flow id="bike3" type="bike" from="D4" to="D7" begin="0" end="0" number="1000" departPos="last"/>
+    <flow id="scooter3" type="scooter" from="D4" to="D7" begin="0" end="0" number="1000" departPos="last"/>
+
+    <flow id="pkw4" type="pkw" from="D4" to="D7" begin="0" end="0" number="1000" departPos="last"/>
+    <flow id="bus4" type="bus" from="D4" to="D7" begin="0" end="0" number="1000" departPos="last"/>
+    <flow id="bike4" type="bike" from="D4" to="D7" begin="0" end="0" number="1000" departPos="last"/>
+    <flow id="scooter4" type="scooter" from="D4" to="D7" begin="0" end="0" number="1000" departPos="last"/>
+
+
+
+
+</routes>

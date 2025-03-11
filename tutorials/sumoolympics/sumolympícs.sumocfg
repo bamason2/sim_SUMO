@@ -1,0 +1,12 @@
+<configuration>
+   <input>
+       <net-file value="sumolympics.net.xml"/>
+       <route-files value="sumolympics.rou.xml"/>
+   </input>
+   <processing>
+        <lateral-resolution value="0.5" />
+        <tripinfo-output value="data.xml"/>
+        <emission-output value="emissions_data.xml" />
+        <device.emissions.probability value="1.0" />
+   </processing>
+</configuration>
