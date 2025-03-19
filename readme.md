@@ -2,8 +2,9 @@
 
 SUMO simulation files
 
-* Tutorials - worked examples from SUMO tutorials on SUMO website
-* Junctions - various junctions in HCMC 
+* /tutorials - worked examples from SUMO tutorials on SUMO website
+* /junctions - various junctions in HCMC 
+* /quan - Quan's code
 
 
 
