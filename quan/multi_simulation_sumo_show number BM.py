@@ -30,10 +30,6 @@ def adjust_vehicle_numbers(xml_file, output_file, new_percentages):
     # Compute new counts based on percentages
     new_counts = {vtype: int((new_percentages[vtype] / 100) * total_vehicles) for vtype in vehicle_types}
 
-    # print("\n🚗 Vehicle Distribution for Current Scenario:")
-    # for vtype, count in new_counts.items():
-    #     print(f"  {vtype}: {count} vehicles ({new_percentages[vtype]}%)")
-
     for flow in root.findall("flow"):
         vtype = flow.get("type")
         if vtype in new_counts:
@@ -42,7 +38,7 @@ def adjust_vehicle_numbers(xml_file, output_file, new_percentages):
             flow.set("number", str(max(1, int(new_counts[vtype] * type_ratio))))
 
     tree.write(output_file, encoding="utf-8", xml_declaration=True)
-    # print(f"✅ Modified .rou.xml file saved as: {output_file}")
+
 
 def update_sumo_config(config_file, output_file, new_route_file, emission_file):
     """Updates the SUMO configuration file to use the modified .rou.xml file and set emission output."""
@@ -64,7 +60,7 @@ def update_sumo_config(config_file, output_file, new_route_file, emission_file):
     emission_elem.set("value", emission_file)
 
     tree.write(output_file, encoding="utf-8", xml_declaration=True)
-    # print(f"✅ Modified .sumocfg file saved as: {output_file}")
+
 
 def run_sumo_simulation(config_file):
     """Runs SUMO simulation with the modified configuration file."""
@@ -80,7 +76,6 @@ def parse_emission_data(emission_file):
 
     tree = ET.parse(emission_file)
     root = tree.getroot()
-
 
     # Initialize total sums
     total_emissions = {
@@ -142,6 +137,7 @@ print(data)
 
 
 # For multiple simulations run one after the other
+# ---------------------------------------------------
 
 # List of new vehicle distributions for multiple simulations
 distributions = [
