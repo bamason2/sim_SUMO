@@ -4,3 +4,4 @@
 .DS_Store
 quan/emissions_data.xml
 quan/data.xml
+*.pyc
