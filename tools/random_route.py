@@ -3,7 +3,7 @@ import xml.etree.ElementTree as ET
 import matplotlib.pyplot as plt
 import numpy as np
 
-def get_edges_from_net(net_file):
+def get_edges_from_net(net_file):  #this needs to be changed to work with selected edges to better represent traffic across a junction
     """find edges for a given route .net file"""
     tree = ET.parse(net_file)
     root = tree.getroot()
