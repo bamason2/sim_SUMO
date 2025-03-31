@@ -4,6 +4,8 @@ sobol sensitivity analysis"""
 
 import csv
 import numpy as np
+import sys
+sys.path.append('/Users/byronmason/Code/sim_SUMO/tools')  #path to the tools directory
 from experimental_design import sobol_sensitivity
 from random_route import generate_route_file
 from sumo_interface import run_sumo_simulation, parse_emission_data
