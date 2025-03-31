@@ -1,8 +1,12 @@
 """sensitivity study to determine sensitivity of inputs and their interactions to PM2.5 using 
 sobol sensitivity analysis"""
 
+
 import csv
+import sys
+sys.path.append('/Users/byronmason/Code/sim_SUMO/tools')  #path to the tools directory
 import numpy as np
+
 from experimental_design import sobol_sensitivity
 from random_route import generate_route_file
 from sumo_interface import run_sumo_simulation, parse_emission_data
