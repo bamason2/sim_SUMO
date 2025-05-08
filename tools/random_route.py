@@ -83,13 +83,21 @@ def write_rou_file(filename, trips):
 
     # Define vehicle types
     vehicle_types = {
-        "pkw": {"id": "pkw", "accel": "2.6", "decel": "4.5", "sigma": "0.5", "length": "4.5", "maxSpeed": "50"},
-        "bus": {"id": "bus", "accel": "1.0", "decel": "3.0", "sigma": "0.5", "length": "12.0", "maxSpeed": "25"},
-        "scooter": {"id": "scooter", "accel": "3.0", "decel": "4.5", "sigma": "0.5", "length": "2.0", "maxSpeed": "40"},
-        "bike": {"id": "bike", "accel": "2.0", "decel": "4.0", "sigma": "0.5", "length": "1.8", "maxSpeed": "15"}
+        "pkw": {"id": "pkw", "accel": "2.6", "decel": "4.5", "sigma": "0.5", "length": "4.5", "maxSpeed": "50" ,"vClass": "passenger", "color" : "0,255,0","emissionClass": "HBEFA4/PC_petrol_Euro-4"},
+        "bus": {"id": "bus", "accel": "1.0", "decel": "3.0", "sigma": "0.5", "length": "12.0",  "color" : "255,255,0",  "maxSpeed": "25","emissionClass": "HBEFA4/RT_gt14-20t_Euro-IV_EGR","vClass" : "bus" },
+        "scooter": {"id": "scooter", "accel": "3.0", "decel": "4.5", "sigma": "0.5", "length": "2.0", "color" : "255,0,255", "maxSpeed": "40", "emissionClass" : "HBEFA4/MC_4S_le250cc_Euro-4", "vClass" : "bicycle" },
+        "bike": {"id": "bike", "accel": "2.0", "decel": "4.0", "sigma": "0.5", "length": "1.8", "maxSpeed": "15", "color" : "0,255,255" , "vClass" : "moped"}
     }
+    
+    
+##<!--update parameter for safety-->
+##    <vType sigma="0.15" speedDev="0.15" minGap="2.5" vClass="passenger" color="0,255,0"/>
+#    <vType  accel="1.0" decel="2.0" sigma="0.05" speedDev="0.1" minGap="3.0" vClass="bus"/>
+#    <vType id="bike" length="1.8" width="0.5" maxSpeed="6.5" departSpeed="max" departLane="best" accel="0.7" decel="1.3" sigma="0.25" speedDev="0.4" minGap="0.6" minGapLat="0.4" vClass="bicycle"/>
+#    <vType id="scooter" departSpeed="max" departLane="best"   speedDev="0.15" minGap="0.7" minGapLat="0.4" lcOvertakeRight="0.5" lcCooperative="0.3" lcAssertive="0.7" lcSpeedGain="0.5" tau="1.1" emissionClass="HBEFA4/MC_4S_le250cc_Euro-4" vClass="moped" color="255,0,0"/>
 
     for vtype in vehicle_types.values():
+
         ET.SubElement(root, "vType", **vtype)
 
     # Add trips
@@ -179,7 +187,7 @@ def generate_route_file_defined_routes(
     write_rou_file(route_file, trips)
 
 def generate_route_file_sink_to_source(
-        net_file,
+        net_file, 
         route_file,
         total_vehicles,
         duration,
