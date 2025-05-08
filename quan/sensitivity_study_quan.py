@@ -3,31 +3,51 @@ import subprocess
 import sys
 import numpy as np
 
-#sys.path.append('/home/quan/Desktop/sim_SUMO/tools')  # path to the tools directory
-#from experimental_design import sobol_sensitivity
-##from random_route import generate_route_file_defined_routes
-#from sumo_interface import run_sumo_simulation, parse_emission_data
-
-#TOTAL_VEHICLES = 1000
-#CONFIG_FILE = "./complex_juntion.sumocfg"
-#NET_FILE = "./complex_juntion.net.xml"
-#ROUTE_FILE = "./complex_juntion.rou.xml"
-#SIMULATION_DURATION = 3600
-#RESULTS_FILE = "./sensitivity_results.csv"
-#EMISSION_FILE = "./emissions_data.xml"
-sys.path.append(r'C:/Users/Nguyen Minh Quan/Quan/Quan/Desktop/SUMO simulation/sim_SUMO/tools')  #path to the tools directory
-from experimental_design import sobol_sensitivity
+sys.path.append('/home/quan/sim_SUMO/tools')  # path to the tools directory
+from experimental_design1 import sobol_sensitivity
 from random_route import generate_route_file_defined_routes
 from sumo_interface import run_sumo_simulation, parse_emission_data
 
-TOTAL_VEHICLES = 1000
-CONFIG_FILE = r"C:\Users\Nguyen Minh Quan\Quan\Quan\Desktop\SUMOsimulation\sim_SUMO\quan\complex.sumocfg"
-NET_FILE = r"C:\Users\Nguyen Minh Quan\Quan\Quan\Desktop\SUMOsimulation\sim_SUMO\quan\complex.net.xml"
-ROUTE_FILE = r"C:\Users\Nguyen Minh Quan\Quan\Quan\Desktop\SUMOsimulation\sim_SUMO\quan\complex.rou.xml"
-#TRIP_FILE = "./complex_juntion.trips.xml"
+# TOTAL_VEHICLES = 1100
+# CONFIG_FILE = "./simpleT.sumocfg"
+# NET_FILE = "./simpleT.net.xml"
+# ROUTE_FILE = "./simpleT.rou.xml"
+# SIMULATION_DURATION = 3600
+# RESULTS_FILE = "./sensitivity_results_simple26APRIL.csv"
+# EMISSION_FILE = "./emissions_data.xml"
+
+# # Vehicle routes, as per the network
+# VEHICLE_ROUTES = {
+#    "pkw": {
+#       "L15": ['L18', 'L13'],
+#       "L17": ['L16', 'L13'],
+#       "L14": ['L18', 'L16']
+#    },
+#    "bus": {
+#       "L15": ['L18', 'L13'],
+#       "L17": ['L16', 'L13'],
+#       "L14": ['L18', 'L16']
+#    },
+#    "scooter": {
+#       "L15": ['L18', 'L13'],
+#       "L17": ['L16', 'L13'],
+#       "L14": ['L18', 'L16']
+#    },
+#    "bike": {
+#       "L15": ['L18', 'L13'],
+#       "L17": ['L16', 'L13'],
+#       "L14": ['L18', 'L16']
+#    }
+# }
+
+TOTAL_VEHICLES = 1100
+CONFIG_FILE = "./complex.sumocfg"
+NET_FILE = "./complex.net.xml"
+ROUTE_FILE = "./complex.rou.xml"
 SIMULATION_DURATION = 3600
-RESULTS_FILE = "./sensitivity_results.csv"
+RESULTS_FILE = "./sensitivity_results_complex27APRIL.csv"
 EMISSION_FILE = "./emissions_data.xml"
+
 # Vehicle routes, as per the network
 VEHICLE_ROUTES = {
    "pkw": {
@@ -54,14 +74,12 @@ VEHICLE_ROUTES = {
       "L2": ['L3', 'L7', 'L9'],
       "L22": ['L1', 'L3', 'L7', 'L9'],
       "L26": ['L1', 'L3', 'L7', 'L9'],
-      "L5": ['L1', 'L3', 'L4', 'L7', 'L9'],
       "L8": ['L1', 'L3', 'L9']
    },
    "bike": {
       "L2": ['L3', 'L7', 'L9'],
       "L22": ['L1', 'L3', 'L7', 'L9'],
       "L26": ['L1', 'L3', 'L7', 'L9'],
-      "L5": ['L1', 'L3', 'L4', 'L7', 'L9'],
       "L8": ['L1', 'L3', 'L9']
    }
 }
@@ -80,17 +98,18 @@ for index, vehicle_proportions in enumerate(vehicle_counts):
         vehicle_proportions=vehicle_proportions,
         vehicle_routes=VEHICLE_ROUTES)
     
-    # Generate route file from trip file
+    # Generate route file from trip file ,
     command = [
         'duarouter',
         '--verbose', 'true',
-        '--net-file', './complex_juntion.net.xml',
-        '--route-files', './complex_juntion.rou.xml',
-        '--output-file', './complex_juntion_output.rou.xml'
+        '--net-file', NET_FILE,
+        '--trip-files', ROUTE_FILE,
+        '--output-file',  ROUTE_FILE
     ]
-    
-    # Run duarouter to generate routes
+        # Run duarouter to generate routes
     subprocess.run(command, check=True)
+
+
 
     # Run simulation
     print(f"Running simulation {index}...")
@@ -100,7 +119,7 @@ for index, vehicle_proportions in enumerate(vehicle_counts):
     emissions = parse_emission_data(emission_file=EMISSION_FILE)
 
     # Save results
-    combined = np.concatenate((vehicle_proportions, emissions.values[0]))
+    combined = np.concatenate((vehicle_proportions,+ emissions.values[0]))
 
     with open(RESULTS_FILE, mode='a', encoding="utf-8") as file:
         writer = csv.writer(file)
