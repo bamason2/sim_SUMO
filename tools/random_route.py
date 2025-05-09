@@ -1,10 +1,16 @@
+"generate random routes for SUMO simulation"
+# This script generates random routes for a SUMO simulation based on vehicle 
+# proportions and network data.
+
 import random
 import xml.etree.ElementTree as ET
 import matplotlib.pyplot as plt
 import numpy as np
 import sumolib
 
-def get_edges_from_net(net_file):  #this needs to be changed to work with selected edges to better represent traffic across a junction
+def get_edges_from_net(net_file):  
+    #this needs to be changed to work with selected edges
+    # to better represent traffic across a junction
     """find edges for a given route .net file"""
     tree = ET.parse(net_file)
     root = tree.getroot()
@@ -30,7 +36,7 @@ def generate_trips_defined(num_vehicles, duration, proportions, routes):
         compatible_routes = routes.get(veh_type, [])
         if not compatible_routes:
             raise ValueError(f"No compatible routes found for vehicle type: {veh_type}")
-        
+
         sources = list(routes[veh_type].keys())
         source = random.choice(sources)
         sinks = routes[veh_type][source]
@@ -83,16 +89,54 @@ def write_rou_file(filename, trips):
 
     # Define vehicle types
     vehicle_types = {
-        "pkw": {"id": "pkw", "accel": "2.6", "decel": "4.5", "sigma": "0.5", "length": "4.5", "maxSpeed": "50" ,"vClass": "passenger", "color" : "0,255,0","emissionClass": "HBEFA4/PC_petrol_Euro-4"},
-        "bus": {"id": "bus", "accel": "1.0", "decel": "3.0", "sigma": "0.5", "length": "12.0",  "color" : "128, 0, 128",  "maxSpeed": "25","emissionClass": "HBEFA4/RT_gt14-20t_Euro-IV_EGR" },
-        "scooter": {"id": "scooter", "accel": "3.0", "decel": "4.5", "sigma": "0.5", "length": "2.0", "color" : "255,0,0", "maxSpeed": "40", "emissionClass" : "HBEFA4/MC_4S_le250cc_Euro-4"},
-        "bike": {"id": "bike", "accel": "2.0", "decel": "4.0", "sigma": "0.5", "length": "1.8", "maxSpeed": "15", "color" : "0,0,255" }
+        "pkw": {
+            "id": "pkw", 
+            "accel": "2.6", 
+            "decel": "4.5", 
+            "sigma": "0.5", 
+            "length": "4.5", 
+            "maxSpeed": "50",
+            "vClass": "passenger",
+            "color" : "0,255,0",
+            "emissionClass": "HBEFA4/PC_petrol_Euro-4"
+            },
+        "bus": {
+            "id": "bus", 
+            "accel": "1.0", 
+            "decel": "3.0", 
+            "sigma": "0.5", 
+            "length": "12.0",  
+            "color" : "128, 0, 128",  
+            "maxSpeed": "25",
+            "emissionClass": "HBEFA4/RT_gt14-20t_Euro-IV_EGR" 
+            },
+        "scooter": {
+            "id": "scooter", 
+            "accel": "3.0", 
+            "decel": "4.5", 
+            "sigma": "0.5", 
+            "length": "2.0", 
+            "color" : "255,0,0", 
+            "maxSpeed": "40", 
+            "emissionClass" : "HBEFA4/MC_4S_le250cc_Euro-4"
+            },
+        "bike": {
+            "id": "bike", 
+            "accel": "2.0", 
+            "decel": "4.0", 
+            "sigma": "0.5", 
+            "length": "1.8", 
+            "maxSpeed": "15", 
+            "color" : "0,0,255",
+            "emissionClass" : "Zero"
+            }
     }
 ##<!--update parameter for safety-->
 ##    <vType sigma="0.15" speedDev="0.15" minGap="2.5" vClass="passenger" color="0,255,0"/>
 #    <vType  accel="1.0" decel="2.0" sigma="0.05" speedDev="0.1" minGap="3.0" vClass="bus"/>
 #    <vType id="bike" length="1.8" width="0.5" maxSpeed="6.5" departSpeed="max" departLane="best" accel="0.7" decel="1.3" sigma="0.25" speedDev="0.4" minGap="0.6" minGapLat="0.4" vClass="bicycle"/>
 #    <vType id="scooter" length="2" maxSpeed="45" departSpeed="max" departLane="best" accel="2.3" decel="4.0" sigma="0.3" speedDev="0.15" minGap="0.7" minGapLat="0.4" lcOvertakeRight="0.5" lcCooperative="0.3" lcAssertive="0.7" lcSpeedGain="0.5" tau="1.1" emissionClass="HBEFA4/MC_4S_le250cc_Euro-4" vClass="moped" color="255,0,0"/>
+
     for vtype in vehicle_types.values():
 
         ET.SubElement(root, "vType", **vtype)
@@ -184,7 +228,7 @@ def generate_route_file_defined_routes(
     write_rou_file(route_file, trips)
 
 def generate_route_file_sink_to_source(
-        net_file, 
+        net_file,
         route_file,
         total_vehicles,
         duration,
