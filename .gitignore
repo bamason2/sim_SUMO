@@ -5,3 +5,6 @@
 quan/emissions_data.xml
 quan/data.xml
 *.pyc
+
+
+*.egg-info/
