@@ -15,7 +15,7 @@ def parse_emission_data(emission_file):
     """Parse SUMO emission file and extracts vehicle emissions data"""
 
     if not os.path.exists(emission_file):
-        print(f"❌ No emission data found for {emission_file}. Skipping...")
+        print(f"No emission data found for {emission_file}. Skipping...")
         return None
 
     tree = ET.parse(emission_file)
@@ -45,3 +45,29 @@ def parse_emission_data(emission_file):
     df = pd.DataFrame([total_emissions])
 
     return df
+
+def parse_trip_emissions(trip_file="data.xml"):
+    """Parse SUMO trip file and extracts vehicle emissions"""
+
+# sum total emissions for each vehicle type in trip_file
+    tree = ET.parse(trip_file)
+    root = tree.getroot()
+
+# get PMx_abs for each tripinfo with vehicle type
+    emissions = []
+    for tripinfo in root.findall("tripinfo"):
+        vehicle_type = tripinfo.get("vType")
+        emissions_data = tripinfo.find("emissions")
+        pmx_abs = float(emissions_data.get("PMx_abs", 0))
+        emissions.append({"Vehicle Type": vehicle_type, "PMx_abs": pmx_abs})
+
+    # Convert to DataFrame
+    df = pd.DataFrame(emissions)
+
+    # sum all values in PMx_abs
+    total_Pm = float(df["PMx_abs"].sum())
+
+    # Group by vehicle type and sum emissions
+    # df_grouped = df.groupby("Vehicle Type").sum().reset_index()
+
+    return total_Pm
