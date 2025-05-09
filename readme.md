@@ -4,7 +4,7 @@ SUMO simulation files
 
 * /tutorials - worked examples from SUMO tutorials on SUMO website
 * /junctions - various junctions in HCMC 
-* /quan - Quan's code
+
 
 
 
@@ -12,18 +12,19 @@ SUMO simulation files
 
 1. Case study selection
 
-   a. Quickly select some candidate junctions in low air quality zones using satellite data
+   a. Quickly select some candidate junctions in low air quality zones using satellite data [DONE]
 
 2. Emissions simulation options
    
-   a. Aggregate vs time based? - does aggregate match integrated time based?  
+   a. Aggregate vs time based? - does aggregate match integrated time based?
+      No. Data is taken from trip data file which outputs total emissions per vehicle-trip.
    b. Does sample rate affect emissions calculations?
    c. Different type of vehicles - which vehicles should be included?
    d. Is there some data regarding vehicle types for HCMC or is observation required?
    e. Screening experiment - which factors to consider?
    f. Output is aggregate emissions and *through-flow*/*accumulation rate*?
 
-3. Think about integration with MBC
+4. Think about integration with MBC
    
    a. Investigate command line simulation and plotting
    b. Output file from MBC show factors and levels - what is the format?
