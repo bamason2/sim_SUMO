@@ -2,9 +2,6 @@ import xml.etree.ElementTree as ET
 import pandas as pd
 
 
-
-
-
 def sumo_xml_to_csv(xml_file, csv_file):
     # Parse XML
     tree = ET.parse(xml_file)
