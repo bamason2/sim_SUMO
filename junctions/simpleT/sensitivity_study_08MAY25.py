@@ -120,6 +120,8 @@ for index, vehicle_proportions in enumerate(vehicle_counts):
          # Write header if the file is being created
             writer.writerow(['pkw', 'bus', 'scooter', 'bike', 'total_PMx'])
             writer.writerow(combined)
+        elif file_exists:
+            writer.writerow(combined)
 
         print(f"Completed simulation {index} and saved results.")
 
