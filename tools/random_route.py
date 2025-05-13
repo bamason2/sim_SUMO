@@ -108,6 +108,7 @@ def write_rou_file(filename, trips):
             "length": "12.0",  
             "color" : "128, 0, 128",  
             "maxSpeed": "25",
+            "vClass" : "bus",
             "emissionClass": "HBEFA4/RT_gt14-20t_Euro-IV_EGR" 
             },
         "scooter": {
@@ -118,6 +119,7 @@ def write_rou_file(filename, trips):
             "length": "2.0", 
             "color" : "255,0,0", 
             "maxSpeed": "40", 
+            "vClass" : "moped", 
             "emissionClass" : "HBEFA4/MC_4S_le250cc_Euro-4"
             },
         "bike": {
@@ -128,6 +130,7 @@ def write_rou_file(filename, trips):
             "length": "1.8", 
             "maxSpeed": "15", 
             "color" : "0,0,255",
+            "vClass" : "bicycle",
             "emissionClass" : "Zero"
             }
     }
