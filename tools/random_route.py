@@ -4,8 +4,6 @@
 
 import random
 import xml.etree.ElementTree as ET
-import matplotlib.pyplot as plt
-import numpy as np
 import sumolib
 
 def get_edges_from_net(net_file):  
