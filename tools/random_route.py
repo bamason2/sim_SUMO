@@ -83,8 +83,8 @@ def generate_trips(num_vehicles, duration, proportions, *args):
             })
     return trips
 
-def write_rou_file(filename, trips):
-    """Write trips to a .rou.xml file with vehicle type definitions."""
+def write_trip_file(trip_filename, trips):
+    """Create a .rou.xml file with vehicle type definitions from trips"""
     root = ET.Element("routes")
 
     # Define vehicle types
@@ -95,7 +95,7 @@ def write_rou_file(filename, trips):
             "decel": "4.5", 
             "sigma": "0.5", 
             "length": "4.5", 
-            "maxSpeed": "50",
+            "maxSpeed": "11.11",
             "vClass": "passenger",
             "color" : "0,255,0",
             "emissionClass": "HBEFA4/PC_petrol_Euro-4"
@@ -107,7 +107,7 @@ def write_rou_file(filename, trips):
             "sigma": "0.5", 
             "length": "12.0",  
             "color" : "128, 0, 128",  
-            "maxSpeed": "25",
+            "maxSpeed": "11.11",
             "emissionClass": "HBEFA4/RT_gt14-20t_Euro-IV_EGR" 
             },
         "scooter": {
@@ -117,7 +117,7 @@ def write_rou_file(filename, trips):
             "sigma": "0.5", 
             "length": "2.0", 
             "color" : "255,0,0", 
-            "maxSpeed": "40", 
+            "maxSpeed": "11.11", 
             "emissionClass" : "HBEFA4/MC_4S_le250cc_Euro-4"
             },
         "bike": {
@@ -126,13 +126,13 @@ def write_rou_file(filename, trips):
             "decel": "4.0", 
             "sigma": "0.5", 
             "length": "1.8", 
-            "maxSpeed": "15", 
+            "maxSpeed": "4.17", 
             "color" : "0,0,255",
             "emissionClass" : "Zero"
             }
     }
 ##<!--update parameter for safety-->
-##    <vType sigma="0.15" speedDev="0.15" minGap="2.5" vClass="passenger" color="0,255,0"/>
+#    <vType sigma="0.15" speedDev="0.15" minGap="2.5" vClass="passenger" color="0,255,0"/>
 #    <vType  accel="1.0" decel="2.0" sigma="0.05" speedDev="0.1" minGap="3.0" vClass="bus"/>
 #    <vType id="bike" length="1.8" width="0.5" maxSpeed="6.5" departSpeed="max" departLane="best" accel="0.7" decel="1.3" sigma="0.25" speedDev="0.4" minGap="0.6" minGapLat="0.4" vClass="bicycle"/>
 #    <vType id="scooter" length="2" maxSpeed="45" departSpeed="max" departLane="best" accel="2.3" decel="4.0" sigma="0.3" speedDev="0.15" minGap="0.7" minGapLat="0.4" lcOvertakeRight="0.5" lcCooperative="0.3" lcAssertive="0.7" lcSpeedGain="0.5" tau="1.1" emissionClass="HBEFA4/MC_4S_le250cc_Euro-4" vClass="moped" color="255,0,0"/>
@@ -152,47 +152,15 @@ def write_rou_file(filename, trips):
 
     # Write to file
     tree = ET.ElementTree(root)
-    tree.write(filename, encoding="utf-8", xml_declaration=True)
-    print(f"Generated {len(trips)} trips and saved to {filename}")
-
-def plot_departure_histogram_by_type(trips, duration, num_bins=60):
-    """plot the distribution of vehicle departures over normalised time by vehicle type"""
-    type_to_departs = {}
-    for trip in trips:
-        vtype = trip["type"]
-        norm_depart = trip["depart"] / duration
-        type_to_departs.setdefault(vtype, []).append(norm_depart)
-    bins = np.linspace(0, 1, num_bins + 1)
-    bin_width = bins[1] - bins[0]
-    bin_centers = bins[:-1] + bin_width / 2
-    type_histograms = {}
-    for vtype, times in type_to_departs.items():
-        hist, _ = np.histogram(times, bins=bins)
-        type_histograms[vtype] = hist
-    vehicle_types_sorted = sorted(type_histograms.keys())
-    colors = {"pkw": "#1f77b4", "bus": "#ff7f0e", "scooter": "#2ca02c", "bike": "#d62728"}
-    bottom = np.zeros(len(bin_centers))
-    plt.figure(figsize=(10, 4))
-    for vtype in vehicle_types_sorted:
-        counts = type_histograms[vtype]
-        plt.bar(bin_centers, counts, width=bin_width, bottom=bottom,
-                label=vtype, color=colors.get(vtype, None), edgecolor='black')
-        bottom += counts
-    plt.xlabel("Normalized Simulation Time (0–1)")
-    plt.ylabel("Number of Vehicles")
-    plt.title("Vehicle Departures Over Time (Histogram by Type)")
-    plt.legend(title="Vehicle Type")
-    plt.grid(True, axis='y', linestyle='--', alpha=0.5)
-    plt.tight_layout()
-    plt.show()
+    tree.write(trip_filename, encoding="utf-8", xml_declaration=True)
+    print(f"Generated {len(trips)} trips and saved to {trip_filename}")
 
 def generate_trip_file(net_file, route_file, total_vehicles, duration, vehicle_proportions):
     """generate random routes for a given vehicle proportions and write to a .rou.xml file"""
     edges = get_edges_from_net(net_file)
     trips = generate_trips(total_vehicles, duration, vehicle_proportions, edges)
     trips.sort(key=lambda x: x["depart"])
-    write_rou_file(route_file, trips)
-
+    write_trip_file(route_file, trips)
 
 def get_sinks_and_sources(net_file):
     """get the sinks and sources from a .net.xml file"""
@@ -211,8 +179,8 @@ def get_sinks_and_sources(net_file):
 
     return sinks, sources
 
-def generate_route_file_defined_routes(
-        route_file,
+def generate_trip_file_defined_routes(
+        trip_file,
         total_vehicles,
         duration,
         vehicle_proportions,
@@ -225,7 +193,8 @@ def generate_route_file_defined_routes(
         vehicle_proportions,
         vehicle_routes)
     trips.sort(key=lambda x: x["depart"])
-    write_rou_file(route_file, trips)
+    
+    write_trip_file(trip_file, trips)
 
 def generate_route_file_sink_to_source(
         net_file,
@@ -247,19 +216,6 @@ def generate_route_file_sink_to_source(
         sinks,
         sources)
     trips.sort(key=lambda x: x["depart"])
-    write_rou_file(route_file, trips)
+    write_trip_file(route_file, trips)
 
-def get_trips_from_rou(route_file):
-    """parse trips from a .rou.xml file and return as a list of dicts"""
-    tree = ET.parse(route_file)
-    root = tree.getroot()
-    trips = []
-    for trip in root.findall("trip"):
-        trips.append({
-            "id": trip.get("id"),
-            "type": trip.get("type"),
-            "depart": float(trip.get("depart")),
-            "from": trip.get("from"),
-            "to": trip.get("to")
-        })
-    return trips
+
