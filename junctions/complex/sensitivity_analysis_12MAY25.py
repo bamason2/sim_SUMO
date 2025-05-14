@@ -8,8 +8,7 @@ import seaborn as sns
 from scipy.stats import spearmanr
 import pandas as pd
 import numpy as np
-from tools.analysis import display_table, plot_departure_histogram_by_type, get_vehicle_info
-
+from tools.analysis import display_table
 
 # set results file
 RESULTS_FILE = "complexJunction_sensitivity_results_12MAY25.csv"
