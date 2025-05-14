@@ -3,16 +3,21 @@
 # sensitivity analysis and runs a SUMO simulation for each set 
 # of proportions.
 
+#-----------------------------------------------------------
+# BEFORE RUNNING CHECK THAT .sumocfg IS SET CORRECTLY!!!!!!!
+#-----------------------------------------------------------
+
 
 import csv
 import subprocess
 import sys
 import numpy as np
-import subprocess
+
 
 from tools.experimental_design import sobol_sensitivity
 from tools.random_route import generate_trip_file_defined_routes
-from tools.sumo_interface import run_sumo_simulation, parse_trip_emissions
+from tools.sumo_interface import run_sumo_simulation
+from tools.analysis import parse_trip_emissions
 
 # Constants
 TOTAL_VEHICLES = 1100
