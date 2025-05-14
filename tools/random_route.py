@@ -106,6 +106,7 @@ def write_trip_file(trip_filename, trips):
             "length": "12.0",  
             "color" : "128, 0, 128",  
             "maxSpeed": "11.11",
+            "vClass" : "bus",
             "emissionClass": "HBEFA4/RT_gt14-20t_Euro-IV_EGR" 
             },
         "scooter": {
@@ -116,6 +117,7 @@ def write_trip_file(trip_filename, trips):
             "length": "2.0", 
             "color" : "255,0,0", 
             "maxSpeed": "11.11", 
+            "vClass" : "moped", 
             "emissionClass" : "HBEFA4/MC_4S_le250cc_Euro-4"
             },
         "bike": {
@@ -126,6 +128,7 @@ def write_trip_file(trip_filename, trips):
             "length": "1.8", 
             "maxSpeed": "4.17", 
             "color" : "0,0,255",
+            "vClass" : "bicycle",
             "emissionClass" : "Zero"
             }
     }
