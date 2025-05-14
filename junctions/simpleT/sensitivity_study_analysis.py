@@ -6,10 +6,12 @@ import seaborn as sns
 from scipy.stats import spearmanr
 import pandas as pd
 import numpy as np
+from tools.random_route import plot_departure_histogram_by_type, get_trips_from_rou
 
 
 # set results file
-RESULTS_FILE = "./sensitivity_results_26MAR25.csv"
+RESULTS_FILE = "simpleT_sensitivity_results_08MAY25.csv"
+ROUTE_FILE = "simpleT.rou.xml"
 
 
 # Define problem with 4 independent vars
@@ -25,7 +27,7 @@ data = np.genfromtxt(RESULTS_FILE, delimiter=',', skip_header=0)
 
 
 X = data[:, 0:3]  # input variables
-Y = data[:, 8]  # output variable   
+Y = data[:, 4]  # output variable
 
 
 # convert Y to np array
@@ -57,7 +59,7 @@ plt.show()
 # Plot scatter plots of each vehicle type vs PM2.5
 
 df = pd.DataFrame(data[:, 0:4], columns=labels) # vehicle proportions
-df['PM2.5'] = data[:, 8]  # PM2.5
+df['PM2.5'] = data[:, 4]  # PM2.5
 
 # Set up 2x2 grid of plots
 fig, axes = plt.subplots(2, 2, figsize=(12, 8))
@@ -88,3 +90,10 @@ for i, var in enumerate(labels):
 
 plt.tight_layout()
 plt.show()
+
+
+# plot the start times for each vehicle as a stacked bar chart
+
+trips = get_trips_from_rou(route_file=ROUTE_FILE)
+
+plot_departure_histogram_by_type(trips, duration=3600, num_bins=60)
